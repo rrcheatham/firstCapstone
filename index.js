@@ -1,56 +1,158 @@
-// create 4 global variables for each API endpoint and Streaming results
+const ID_URL = "https://api.themoviedb.org/3/search/movie";
+const REC_URL = "https://api.themoviedb.org/3/movie/";
+const INFO_URL = "http://www.omdbapi.com";
+const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
-function callRecommendationAPI(title, callback) {
-  /* calls API used for movie reccomendations, passes to it the Title
-  aubmitted by the user and callback function, API returns list of recommended
-  movies that are then passed through the callback function */
+function getFilmID(title, callback) {
+  const settings = {
+    url: ID_URL,
+    data: {
+      query: `${title}`,
+      api_key: '04dff062429d9d77bb8beaafb0576a0d',
+      page: 1,
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback,
+  };
+  $.ajax(settings);
 }
 
-function renderRecResults() {
-  /* creates HTML code for each item returned as a reccomendation, will
-  include title, date, and small image of movie poster */
+function renderIdResults(result) {
+  return `
+    <div class='js-id-result'>
+      <h2>${result.title}</h2>
+      <button type='button' class='js-id-button' id=${result.id}>Get Recommendations</button>
+    </div>
+  `;
 }
 
-function displayRecommendations(data) {
-  /* used as callback function for API call, passes each result item to the
-  render function and creates array of results HTML assigned to variable results,
-  inserts HTML into main div in the html document */
+function displayIDSearch(data) {
+  const results = data.results.map((item, index) => renderIdResults(item));
+  $('.js-mainBox').html(results);
+  watchForTitleClick();
 }
 
 function watchForSubmit() {
-  /* event listener that watches for user submission of title,
-  then invokes function calling api data and passes to it the title
-  entered in the form field */
+  $('.js-title-search').submit(event => {
+      event.preventDefault();
+      const queryTarget = $(event.currentTarget).find('.js-query');
+      const query = queryTarget.val();
+      queryTarget.val('');
+      getFilmID(query, displayIDSearch);
+    });
+}
+
+function callRecommendationAPI(filmID, callback) {
+  const settings = {
+    url: `https://api.themoviedb.org/3/movie/${filmID}/recommendations`,
+    data: {
+      api_key: '04dff062429d9d77bb8beaafb0576a0d',
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback,
+  };
+  $.ajax(settings);
+}
+
+function renderRecResults(result) {
+  return `
+    <div class='js-rec-result'>
+      <h2>${result.title}</h2>
+      <button type='button' class='js-rec-button' id='${result.title}'>Get Info</button>
+    </div>
+  `;
+}
+
+function displayRecommendations(data) {
+  const results = data.results.map((item, index) => renderRecResults(item));
+  $('.js-mainBox').html(results);
+  watchForResultClick();
+}
+
+function watchForTitleClick() {
+  $('button.js-id-button').click(event => {
+      event.preventDefault();
+      const filmID = event.currentTarget.id;
+      callRecommendationAPI(filmID, displayRecommendations);
+    });
 }
 
 function callFilmInfoAPI(title, callback) {
-  /* calls API used for film info to pull summary, ratings, cast info, review rating for
-  title, data passed through callback function */
+  const settings = {
+    url: INFO_URL,
+    data: {
+      apikey: 'ed1d6ed2',
+      t: title,
+      plot: 'full',
+      type: 'movie',
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback,
+  };
+  $.ajax(settings);
 }
 
 function callClipsAPI(title, callback) {
-  /* calls API used for video clips to pull results based on title as a query, data
-  passed through callback */
+  const settings = {
+    url: YOUTUBE_SEARCH_URL,
+    data: {
+      q: `${title}`,
+      key: 'AIzaSyDrZQIOJs7kdA1lIk1aExpN01EGDfNeBh8',
+      part: 'snippet',
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback,
+  };
+  $.ajax(settings);
 }
 
-function renderFilmInfo(info) {
-  /* creates HTML code for info returned by film info API, Title, review rating, plot
-  summary, cast info, rating, and runtime in a div within the "mainBox" div */
+function renderFilmInfo(result) {
+  return `
+    <div class="film-info">
+      <h2>${result.Title}</h2>
+      <img src=${result.Poster}>
+      <h4>${result.Rated}</h4>
+      <h4>Metascore: ${result.Metascore}</h4>
+      <h4>${result.Actors}</h4>
+      <p>${result.Plot}</p>
+    </div>
+  `;
 }
 
-function renderFilmClips(clips) {
-  /* creates HTML code for results returned from film clips API, 5 clips placed in div
-  along side info, child of "mainBox" div */
+function renderFilmClips(result) {
+  return `
+    <div class="film-clips">
+      <a href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="video thumbnail"></a>
+      <h4> ${result.snippet.title} </h4>
+    </div>
+  `
 }
 
 function displayFilmInfo(data) {
-  /* used as callback in callFilmInfoAPI passes info to the renderFilmInfo function and
-  inserts into "mainBox" html */
+  const results = `
+    <button type="button" class="js-return">Return To Results</button>
+    <div class="film-info">
+      <h2>${data.Title}</h2>
+      <img src=${data.Poster}>
+      <h4>${data.Rated}</h4>
+      <h4>Metascore: ${data.Metascore}</h4>
+      <h4>${data.Actors}</h4>
+      <p>${data.Plot}</p>
+    </div>
+    <div class="js-film-clips">
+    </div>
+    <iframe frameborder="0" src="http://www.canistream.it/external/imdb/${data.imdbID}?l=mini-bar" width="100%" height="140" scrolling="no"></iframe>
+  `;
+  $('.js-mainBox').html(results);
 }
 
 function displayFilmClips(data) {
-  /* used as callback for callFilmInfoAPI, creates array of results from renderFilmClips and
-  displays in "mainBox" div */
+  const results = data.items.map((item, index) => renderFilmClips(item));
+  $('.js-film-clips').html(results);
 }
 
 function createStreamIframe(title) {
@@ -59,7 +161,22 @@ function createStreamIframe(title) {
 }
 
 function watchForResultClick() {
-  /* event listener that watches for a user to click on one of the reccomendation
-  results, invokes function calling the film info API, film clips(youtube) API, and
-  the "where to strem" iframe and passes each the title of the film selected */
+  $('.js-rec-button').click(event => {
+    event.preventDefault();
+    const filmTitle = event.currentTarget.id;
+    callFilmInfoAPI(filmTitle, displayFilmInfo);
+    callClipsAPI(filmTitle, displayFilmClips);
+  });
 }
+
+function returnToResults() {
+  /* enable user to return to list of results
+  function must save results data and rerender */
+}
+
+function runListeners() {
+  watchForSubmit();
+  watchForTitleClick();
+}
+
+$(runListeners);
