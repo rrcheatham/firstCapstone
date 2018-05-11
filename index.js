@@ -19,18 +19,29 @@ function getFilmID(title, callback) {
 }
 
 function renderIdResults(result) {
+  var releaseYear = result.release_date.slice(0, 4);
   return `
     <div class='js-id-result'>
-      <h2>${result.title}</h2>
+      <h2>${result.title} (${releaseYear})</h2>
       <button type='button' class='js-id-button' id=${result.id}>Get Recommendations</button>
     </div>
+    `;
+}
+
+function renderErrMsg() {
+  return `
+    <p>Sorry we could not find that title, check your spelling or try a different film.</p>
   `;
 }
 
 function displayIDSearch(data) {
-  const results = data.results.map((item, index) => renderIdResults(item));
-  $('.js-mainBox').html(results);
-  watchForTitleClick();
+  if (data.total_results !== 0) {
+    const results = data.results.map((item, index) => renderIdResults(item));
+    $('.js-resultsBox').html(results);
+    watchForTitleClick();
+  } else {
+    $('.js-resultsBox').html(renderErrMsg);
+  }
 }
 
 function watchForSubmit() {
@@ -57,9 +68,10 @@ function callRecommendationAPI(filmID, callback) {
 }
 
 function renderRecResults(result) {
+  var releaseYear = result.release_date.slice(0, 4);
   return `
     <div class='js-rec-result'>
-      <h2>${result.title}</h2>
+      <h2>${result.title} (${releaseYear})</h2>
       <button type='button' class='js-rec-button' id='${result.title}'>Get Info</button>
     </div>
   `;
@@ -67,7 +79,7 @@ function renderRecResults(result) {
 
 function displayRecommendations(data) {
   const results = data.results.map((item, index) => renderRecResults(item));
-  $('.js-mainBox').html(results);
+  $('.js-resultsBox').html(results);
   watchForResultClick();
 }
 
@@ -99,7 +111,7 @@ function callClipsAPI(title, callback) {
   const settings = {
     url: YOUTUBE_SEARCH_URL,
     data: {
-      q: `${title}`,
+      q: `${title} Movieclips`,
       key: 'AIzaSyDrZQIOJs7kdA1lIk1aExpN01EGDfNeBh8',
       part: 'snippet',
     },
@@ -110,24 +122,11 @@ function callClipsAPI(title, callback) {
   $.ajax(settings);
 }
 
-function renderFilmInfo(result) {
-  return `
-    <div class="film-info">
-      <h2>${result.Title}</h2>
-      <img src=${result.Poster}>
-      <h4>${result.Rated}</h4>
-      <h4>Metascore: ${result.Metascore}</h4>
-      <h4>${result.Actors}</h4>
-      <p>${result.Plot}</p>
-    </div>
-  `;
-}
-
 function renderFilmClips(result) {
   return `
     <div class="film-clips">
-      <a href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="video thumbnail"></a>
-      <h4> ${result.snippet.title} </h4>
+      <a target="_blank" href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="clip thumbnail"></a>
+      <h5>${result.snippet.title}</h5>
     </div>
   `
 }
@@ -135,29 +134,41 @@ function renderFilmClips(result) {
 function displayFilmInfo(data) {
   const results = `
     <button type="button" class="js-return">Return To Results</button>
-    <div class="film-info">
-      <h2>${data.Title}</h2>
-      <img src=${data.Poster}>
-      <h4>${data.Rated}</h4>
-      <h4>Metascore: ${data.Metascore}</h4>
-      <h4>${data.Actors}</h4>
-      <p>${data.Plot}</p>
+    <div class="results-container"</div>
+      <div class="film-info">
+        <h2>${data.Title} (${data.Year})</h2>
+        <img src=${data.Poster}>
+        <h4>${data.Rated}</h4>
+        <h4>Metascore: ${data.Metascore}</h4>
+        <h4>${data.Actors}</h4>
+        <p>${data.Plot}</p>
+      </div>
+      <div class="clips-container">
+        <div class="js-film-clips">
+        <h3>Watch MovieClips on Youtube:</h3>
+
+        </div>
+        <div class="links-container">
+          <h4>Find Stream or Download</h4>
+          <div class="links">
+            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="amazon-icon.png"></a>
+            <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png"></a>
+            <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png"></a>
+            <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180"></a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="js-film-clips">
-    </div>
-    <iframe frameborder="0" src="http://www.canistream.it/external/imdb/${data.imdbID}?l=mini-bar" width="100%" height="140" scrolling="no"></iframe>
   `;
-  $('.js-mainBox').html(results);
+  $('.js-infoBox').html(results);
+  $('.js-infoBox').removeClass('hidden');
+  $('.js-resultsBox').addClass('hidden');
 }
 
 function displayFilmClips(data) {
   const results = data.items.map((item, index) => renderFilmClips(item));
-  $('.js-film-clips').html(results);
-}
-
-function createStreamIframe(title) {
-  /* creates iFrame linked to where to stream website passing film name to href in the rendered
-  HTML code, inserts into HTML in "mainBox" div */
+  $('.js-film-clips').append(results);
+  returnToResults();
 }
 
 function watchForResultClick() {
@@ -170,13 +181,17 @@ function watchForResultClick() {
 }
 
 function returnToResults() {
-  /* enable user to return to list of results
-  function must save results data and rerender */
+  $('.js-return').click(event => {
+    event.preventDefault();
+    $('.js-resultsBox').removeClass('hidden');
+    $('.js-infoBox').html('');
+  });
 }
 
 function runListeners() {
   watchForSubmit();
   watchForTitleClick();
+  returnToResults();
 }
 
 $(runListeners);

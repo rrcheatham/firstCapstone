@@ -2,28 +2,160 @@
   box-sizing: border-box;
 }
 
+ html {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("tickets.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Montserrat', sans-serif;
+}
+
 body {
-  background-image: url("tickets.jpg");
 }
 
  main {
    display: flex;
    flex-direction: column;
    justify-content: center;
-   align-items: center;
  }
 
 .js-mainBox {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
+  align-items: center;
 }
 
 h1 {
-  color: white;
+  color: whitesmoke;
+}
+
+h2 {
+  color: whitesmoke;
 }
 
 form {
   display: flex;
   flex-direction: column;
+  width: 320px;
+}
+
+.js-query {
+  height: 40px;
+  border: 3px solid rgba(255, 20, 0, 0.5);
+  border-radius: 10px;
+  background-color: rgba(28, 28, 31, 0.5);
+  color: whitesmoke;
+  text-align: center;
+}
+
+.js-button {
+  margin-top: 5px;
+  height: 40px;
+  border: 3px solid rgba(255, 20, 0, 0.5);
+  border-radius: 10px;
+  background-color: rgba(255, 20, 0, 0.5);
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.js-resultsBox {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 10px;
+  padding-left: 10px;
+  color: whitesmoke;
+}
+
+.js-id-result, .js-rec-result {
+  background-color: rgba(28, 28, 31, 0.8);
+  padding-left: 10px;
+  padding-bottom: 10px;
+  border: 3px solid rgba(255, 20, 0, 0.5);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+
+.js-id-button, .js-rec-button, .js-return {
+  height: 40px;
+  border: 3px solid rgba(255, 20, 0, 0.5);
+  border-radius: 10px;
+  background-color: rgba(255, 20, 0, 0.5);
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.js-infoBox {
+  background-color: rgba(28, 28, 31, 1);
+  color: whitesmoke;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.film-info, .js-film-clips, .links-container {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  background-color: gray;
+  color: black;
+  border: 3px solid whitesmoke;
+  border-radius: 10px;
+}
+
+.film-info {
+  max-width: 1020px;
+}
+
+div.film-info h2,
+div.links-container h4,
+div.js-film-clips h3 {
+  color: black;
+  padding: 0px;
+  margin-top: 0px;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.clips-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+  margin-right: 10px;
+}
+
+.film-clips {
+  display: flex;
+  flex-direction: row;
+}
+
+.film-clips h5 {
+  margin-left: 10px;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.links img {
+  padding-left: 5px;
+}
+
+
+.hidden {
+  display: none;
 }

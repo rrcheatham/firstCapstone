@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Movie Recs</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -14,9 +15,15 @@
     <div class="js-mainBox">
       <h1>Find New Movies To Watch Based On Your Favorite Titles</h1>
       <form action="#" class="js-title-search">
-        <input type="text" class="js-query" id="query" required>
-        <button type="submit" class="js-button">Get Recommendations</button>
+        <input type="text" class="js-query" id="query" value="Jaws" required>
+        <button type="submit" class="js-button">Search Titles</button>
       </form>
+    </div>
+    <div class="js-resultsBox">
+
+    </div>
+    <div class="js-infoBox hidden">
+
     </div>
   </main>
   <script type="text/javascript" src="index.js"></script>
