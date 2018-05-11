@@ -163,6 +163,7 @@ function displayFilmInfo(data) {
   $('.js-infoBox').html(results);
   $('.js-infoBox').removeClass('hidden');
   $('.js-resultsBox').addClass('hidden');
+  $('.js-mainBox').addClass('hidden');
 }
 
 function displayFilmClips(data) {
@@ -184,6 +185,7 @@ function returnToResults() {
   $('.js-return').click(event => {
     event.preventDefault();
     $('.js-resultsBox').removeClass('hidden');
+    $('.js-mainBox').removeClass('hidden');
     $('.js-infoBox').html('');
   });
 }

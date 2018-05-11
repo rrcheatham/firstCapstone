@@ -23,7 +23,8 @@ body {
 .js-mainBox {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 150px;
+  margin-bottom: 250px;
   align-items: center;
 }
 
@@ -126,6 +127,7 @@ div.js-film-clips h3 {
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 .clips-container {
@@ -138,6 +140,7 @@ div.js-film-clips h3 {
 .film-clips {
   display: flex;
   flex-direction: row;
+  margin-bottom: 5px;
 }
 
 .film-clips h5 {
@@ -155,6 +158,16 @@ div.links img {
   padding-left: 5px;
 }
 
+a:hover,
+a:focus,
+Button:focus,
+.js-query:focus {
+  outline: 5px dotted red;
+}
+
+button:hover {
+  cursor: pointer;
+}
 
 .hidden {
   display: none;
