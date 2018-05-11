@@ -4,25 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Movie Recs</title>
+  <title>The Movie Machine</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-  <main>
+  <header role="banner">
+    <div class="pageTitle">
+      <img src="marquee.jpg" alt="website title image">
+    </div>
+  </header>
+  <main role="main">
     <div class="js-mainBox">
-      <h1>Find New Movies To Watch Based On Your Favorite Titles</h1>
+      <h1>Get Movie Recommendations Based On Your Favorite Titles</h1>
       <form action="#" class="js-title-search">
-        <input type="text" class="js-query" id="query" value="Jaws" required>
+        <input aria-label="search" type="text" class="js-query" id="query" value="Jaws" required>
         <button type="submit" class="js-button">Search Titles</button>
       </form>
     </div>
-    <div class="js-resultsBox">
+    <div class="js-resultsBox" aria-live="assertive">
 
     </div>
-    <div class="js-infoBox hidden">
+    <div class="js-infoBox hidden" aria-live="assertive">
 
     </div>
   </main>
