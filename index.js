@@ -166,10 +166,8 @@ function renderFilmClips(result) {
   `;
 }
 
-//render and display film info, no array of results since searching by ID
-//added customized links for stream services search based on title
-function displayFilmInfo(data) {
-  const results = `
+function renderFilmInfo(data) {
+  return `
     <button type="button" class="js-return">Return To Results</button>
     <div class="results-container"</div>
       <div class="film-info">
@@ -197,10 +195,50 @@ function displayFilmInfo(data) {
       </div>
     </div>
   `;
-  $('.js-infoBox').html(results);
-  $('.js-infoBox').removeClass('hidden');
-  $('.js-resultsBox').addClass('hidden');
-  $('.js-mainBox').addClass('hidden');
+}
+
+function renderNoFilmInfo(data) {
+  return `
+    <button type="button" class="js-return">Return To Results</button>
+    <div class="results-container"</div>
+      <div class="film-info">
+        <p>Sorry there is no information availible for this film, but you can still see clips and find it streaming below.</p>
+      </div>
+      <div class="clips-container">
+        <div class="js-film-clips">
+        <h3>Watch MovieClips on Youtube:</h3>
+
+        </div>
+        <div class="links-container">
+          <h4>Find Stream or Download</h4>
+          <div class="links">
+            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="amazon-icon.png" alt="amazon"></a>
+            <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png" alt="netflix"></a>
+            <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png" alt="hulu"></a>
+            <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180" alt="just watch"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+//render and display film info, no array of results since searching by ID
+//added customized links for stream services search based on title
+function displayFilmInfo(data) {
+  if (data.Response !== 'False') {
+    const results = renderFilmInfo(data);
+    $('.js-infoBox').html(results);
+    $('.js-infoBox').removeClass('hidden');
+    $('.js-resultsBox').addClass('hidden');
+    $('.js-mainBox').addClass('hidden');
+  } else {
+    const results = renderNoFilmInfo(data);
+    $('.js-infoBox').html(results);
+    $('.js-infoBox').removeClass('hidden');
+    $('.js-resultsBox').addClass('hidden');
+    $('.js-mainBox').addClass('hidden');
+  }
 }
 
 //pass youTube data to render function and insert array into DOM
