@@ -1,6 +1,6 @@
 const ID_URL = "https://api.themoviedb.org/3/search/movie";
 const REC_URL = "https://api.themoviedb.org/3/movie/";
-const INFO_URL = "http://www.omdbapi.com";
+const INFO_URL = "https://www.omdbapi.com";
 const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 //get film ID from the movieDB database to confirm intial search
@@ -104,7 +104,6 @@ function renderRecResults(result) {
 
 //create of array of data returned by API call and passed to render function, insert in DOM
 function displayRecommendations(data) {
-  console.log(data.results.length);
   if (data.results.length !== 0) {
     const results = data.results.map((item, index) => renderRecResults(item));
     $('.js-resultsBox').html(results);
@@ -244,7 +243,6 @@ function displayFilmInfo(data) {
 //pass youTube data to render function and insert array into DOM
 function displayFilmClips(data) {
   const results = data.items.map((item, index) => renderFilmClips(item));
-  console.log(results);
   $('.js-film-clips').append(results);
   returnToResults();
 }
