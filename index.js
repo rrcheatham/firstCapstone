@@ -185,7 +185,7 @@ function renderFilmInfo(data) {
         <div class="links-container">
           <h4>Find Stream or Download</h4>
           <div class="links">
-            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="amazon-icon.png" alt="amazon"></a>
+            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="Amazon-icon.png" alt="amazon"></a>
             <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png" alt="netflix"></a>
             <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png" alt="hulu"></a>
             <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180" alt="just watch"></a>
