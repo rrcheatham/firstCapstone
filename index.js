@@ -236,7 +236,7 @@ function returnToResults() {
     event.preventDefault();
     $('.js-resultsBox').removeClass('hidden');
     $('.js-mainBox').removeClass('hidden');
-    $(',js-infoBox').addClass('hidden');
+    $('.js-infoBox').addClass('hidden');
     $('html, body').animate({
       scrollTop: $('.js-resultsBox').offset().top,
     }, 1000);
