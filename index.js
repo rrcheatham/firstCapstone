@@ -158,67 +158,34 @@ function callClipsAPI(title, callback) {
 //render for each film result
 function renderFilmClips(result) {
   return `
-    <div class="film-clips">
-      <a target="_blank" href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="clip thumbnail"></a>
-      <h5>${result.snippet.title}</h5>
-    </div>
+    <a target="_blank" href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="clip thumbnail"></a>
+    <h5>${result.snippet.title}</h5>
   `;
 }
 
 function renderFilmInfo(data) {
   return `
-    <button type="button" class="js-return">Return To Results</button>
-    <div class="results-container"</div>
-      <div class="film-info">
-        <h2>${data.Title} (${data.Year})</h2>
-        <img src=${data.Poster} alt="movie poster">
-        <h3>${data.Rated}</h3>
-        <h3>Metascore: ${data.Metascore}</h3>
-        <h4>${data.Actors}</h4>
-        <p>${data.Plot}</p>
-      </div>
-      <div class="clips-container">
-        <div class="js-film-clips">
-        <h3>Watch MovieClips on Youtube:</h3>
-
-        </div>
-        <div class="links-container">
-          <h4>Find Stream or Download</h4>
-          <div class="links">
-            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="Amazon-icon.png" alt="amazon"></a>
-            <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png" alt="netflix"></a>
-            <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png" alt="hulu"></a>
-            <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180" alt="just watch"></a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h2>${data.Title} (${data.Year})</h2>
+    <img src=${data.Poster} alt="movie poster">
+    <h3>${data.Rated}</h3>
+    <h3>Metascore: ${data.Metascore}</h3>
+    <h4>${data.Actors}</h4>
+    <p>${data.Plot}</p>
   `;
 }
 
 function renderNoFilmInfo(data) {
   return `
-    <button type="button" class="js-return">Return To Results</button>
-    <div class="results-container"</div>
-      <div class="film-info">
-        <p>Sorry there is no information availible for this film, but you can still see clips and find it streaming below.</p>
-      </div>
-      <div class="clips-container">
-        <div class="js-film-clips">
-        <h3>Watch MovieClips on Youtube:</h3>
+    <p>Sorry there is no information availible for this film, but you can still see clips and find it streaming below.</p>
+  `;
+}
 
-        </div>
-        <div class="links-container">
-          <h4>Find Stream or Download</h4>
-          <div class="links">
-            <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="amazon-icon.png" alt="amazon"></a>
-            <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png" alt="netflix"></a>
-            <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png" alt="hulu"></a>
-            <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180" alt="just watch"></a>
-          </div>
-        </div>
-      </div>
-    </div>
+function renderLinks(data) {
+  return `
+    <a target="_blank" href='https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dprime-instant-video&field-keywords=${data.Title}'><img src="amazon-icon.png" alt="amazon"></a>
+    <a target="_blank" href='https://flixable.com/?s=${data.Title}'><img src="netflix-icon.png" alt="netflix"></a>
+    <a target="_blank" href='https://www.hulu.com/search?q=${data.Title}&type=movies'><img src="hulu-icon.png" alt="hulu"></a>
+    <a target="_blank" href='https://www.justwatch.com/us/search?q=${data.Title}'><img src="JustWatch-logo-small.png" width="180" alt="just watch"></a>
   `;
 }
 
@@ -227,23 +194,29 @@ function renderNoFilmInfo(data) {
 function displayFilmInfo(data) {
   if (data.Response !== 'False') {
     const results = renderFilmInfo(data);
-    $('.js-infoBox').html(results);
+    const links = renderLinks(data);
+    $('.js-film-info').html(results);
+    $('.js-links').html(links);
     $('.js-infoBox').removeClass('hidden');
     $('.js-resultsBox').addClass('hidden');
     $('.js-mainBox').addClass('hidden');
+    returnToResults();
   } else {
     const results = renderNoFilmInfo(data);
-    $('.js-infoBox').html(results);
+    const links = renderLinks(data);
+    $('.js-film-info').html(results);
+    $('.js-links').html(links);
     $('.js-infoBox').removeClass('hidden');
     $('.js-resultsBox').addClass('hidden');
     $('.js-mainBox').addClass('hidden');
+    returnToResults();
   }
 }
 
 //pass youTube data to render function and insert array into DOM
 function displayFilmClips(data) {
   const results = data.items.map((item, index) => renderFilmClips(item));
-  $('.js-film-clips').append(results);
+  $('.film-clips').html(results);
   returnToResults();
 }
 
@@ -263,7 +236,6 @@ function returnToResults() {
     event.preventDefault();
     $('.js-resultsBox').removeClass('hidden');
     $('.js-mainBox').removeClass('hidden');
-    $('.js-infoBox').html('');
     $('html, body').animate({
       scrollTop: $('.js-resultsBox').offset().top,
     }, 1000);
@@ -274,6 +246,7 @@ function returnToResults() {
 function runListeners() {
   clearSearchField();
   watchForSubmit();
+  watchForResultClick();
 
   //  watchForTitleClick();
   //  returnToResults();

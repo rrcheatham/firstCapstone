@@ -112,7 +112,7 @@ form {
   padding-left: 10px;
 }
 
-.film-info, .js-film-clips, .links-container {
+.js-film-info, .js-film-clips, .links-container {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -124,11 +124,11 @@ form {
   border-radius: 10px;
 }
 
-.film-info {
+.js-film-info {
   max-width: 1020px;
 }
 
-div.film-info h2,
+div.js-film-info h2,
 div.links-container h4,
 div.js-film-clips h3 {
   color: black;
@@ -153,7 +153,7 @@ div.js-film-clips h3 {
 
 .film-clips {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 5px;
 }
 
@@ -161,13 +161,13 @@ div.js-film-clips h3 {
   margin-left: 10px;
 }
 
-.links {
+.js-links {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-div.links img {
+div.js-links img {
   padding-left: 5px;
 }
 
