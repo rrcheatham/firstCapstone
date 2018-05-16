@@ -71,6 +71,7 @@ function watchForSubmit() {
       const query = queryTarget.val();
       queryTarget.val('');
       getFilmID(query, displayIDSearch);
+      $('.js-resultsBox').removeClass('hidden');
       $('html, body').animate({
         scrollTop: $('.js-resultsBox').offset().top,
       }, 1000);
