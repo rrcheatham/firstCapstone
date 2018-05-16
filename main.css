@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
  html {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("tickets.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -9,6 +5,7 @@
   -o-background-size: cover;
   background-size: cover;
   font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
 }
 
 header {
@@ -19,12 +16,8 @@ header {
   padding-top: 10px;
 }
 
-.tmdbIcon {
-  height: 50px;
-}
-
-
-body {
+header img {
+  height: 75px;
 }
 
  main {
@@ -40,14 +33,13 @@ body {
   margin-bottom: 250px;
   align-items: center;
   text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 h1 {
   color: whitesmoke;
-}
-
-h2 {
-  color: whitesmoke;
+  font-size: 20px;
 }
 
 form {
@@ -78,30 +70,39 @@ form {
 .js-resultsBox {
   display: flex;
   flex-direction: column;
-  margin-left: 50px;
-  margin-right: 50px;
   margin-top: 10px;
   padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
   color: whitesmoke;
+  background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282828;
+  background-size:16px 16px;
+}
+
+.js-resultsBox h2 {
+  font-size: 18px;
 }
 
 .js-id-result, .js-rec-result {
-  background-color: rgba(28, 28, 31, 0.8);
   padding-left: 10px;
   padding-bottom: 10px;
-  border: 3px solid rgba(255, 20, 0, 0.5);
-  border-radius: 10px;
   margin-bottom: 10px;
 }
 
 
 .js-id-button, .js-rec-button, .js-return {
-  height: 40px;
+  height: 30px;
   border: 3px solid rgba(255, 20, 0, 0.5);
   border-radius: 10px;
   background-color: rgba(255, 20, 0, 0.5);
   color: whitesmoke;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .js-infoBox {
@@ -110,29 +111,47 @@ form {
   margin-top: 10px;
   padding-top: 10px;
   padding-left: 10px;
+  background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282828;
+  background-size:16px 16px;
 }
 
-.js-film-info, .js-film-clips, .links-container {
+.js-film-info, .links-container {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
-  margin-top: 10px;
   padding-top: 10px;
-  background-color: gray;
-  color: black;
-  border: 3px solid whitesmoke;
-  border-radius: 10px;
+  color: whitesmoke;
+}
+
+.js-film-clips {
+  padding: 0px 10px 10px 10px;
+  color: whitesmoke;
 }
 
 .js-film-info {
-  max-width: 1020px;
+  max-width: 545px;
 }
 
 div.js-film-info h2,
-div.links-container h4,
-div.js-film-clips h3 {
-  color: black;
+div.links-container h4 {
+  color: whitesmoke;
   padding: 0px;
+  margin-top: 0px;
+}
+
+div.js-film-clips h3, div.links-container h4 {
+  background-color: rgba(57, 57, 57, .8);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+  border: 1px solid whitesmoke;
   margin-top: 0px;
 }
 
@@ -142,12 +161,12 @@ div.js-film-clips h3 {
   align-items: stretch;
   justify-content: center;
   margin-bottom: 50px;
+  flex-wrap: wrap;
 }
 
 .clips-container {
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
   margin-right: 10px;
 }
 
@@ -159,6 +178,11 @@ div.js-film-clips h3 {
 
 .film-clips h5 {
   margin-left: 10px;
+}
+
+.js-clip-result {
+  display: flex;
+  flex-direction: row;
 }
 
 .js-links {
@@ -186,16 +210,23 @@ button:hover {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  header {
-    display: none;
+@media screen and (min-width: 768px) {
+  header img {
+    height: 100px;
   }
-  .js-mainBox h1 {
-    font-size: 24px;
+}
+
+@media screen and (min-width: 1024px) {
+  header img {
+    height: 150px;
+  }
+  div.js-mainBox h1 {
+    font-size: 28px;
+  }
+  div.js-rec-result h2 {
+    font-size: 20px;
   }
   .results-container {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
-  .clips-container {
-    margin-left: 5px;
-  }
+}

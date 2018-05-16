@@ -158,8 +158,10 @@ function callClipsAPI(title, callback) {
 //render for each film result
 function renderFilmClips(result) {
   return `
+  <div class="js-clip-result">
     <a target="_blank" href='http://www.youtube.com/watch?v=${result.id.videoId}'><img src='${result.snippet.thumbnails.default.url}' alt="clip thumbnail"></a>
     <h5>${result.snippet.title}</h5>
+  </div>
   `;
 }
 
@@ -227,6 +229,9 @@ function watchForResultClick() {
     const filmTitle = event.currentTarget.id;
     callFilmInfoAPI(filmTitle, displayFilmInfo);
     callClipsAPI(filmTitle, displayFilmClips);
+    $('html, body').animate({
+      scrollTop: $('.js-infoBox').offset().top,
+    }, 1000);
   });
 }
 
